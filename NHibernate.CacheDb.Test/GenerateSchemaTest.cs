@@ -12,7 +12,6 @@ namespace NHibernate.CacheDb.Test
         /// This will drop and recreate the GGTestProduct table
         /// </summary>
         [TestMethod]
-        [Ignore]
         public void Can_generate_schema()
         {
             var config = new Configuration();

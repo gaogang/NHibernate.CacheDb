@@ -12,7 +12,10 @@ namespace NHibernate.Driver
             "InterSystems.Data.CacheClient",
             "InterSystems.Data.CacheClient",
             "InterSystems.Data.CacheClient.CacheConnection",
-            "InterSystems.Data.CacheClient.CacheCommand") { }
+            "InterSystems.Data.CacheClient.CacheCommand"
+            ) 
+        {
+        }
 
 		public override bool UseNamedPrefixInSql
 		{
