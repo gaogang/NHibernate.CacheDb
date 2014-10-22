@@ -34,22 +34,22 @@ namespace NHibernate.Dialect
 
         protected void CommonRegistration()
         {
+            RegisterColumnType(DbType.AnsiStringFixedLength, 1, "char(1)");
             RegisterColumnType(DbType.Binary, "varbinary($1)");
-            RegisterColumnType(DbType.Boolean, "bit");
             RegisterColumnType(DbType.Byte, "tinyint");
-            RegisterColumnType(DbType.UInt16, "smallint");
+            RegisterColumnType(DbType.Boolean, "bit");
+            RegisterColumnType(DbType.Currency, "numeric");
+            RegisterColumnType(DbType.Date, "date");
+            RegisterColumnType(DbType.DateTime, "timestamp");
+            RegisterColumnType(DbType.Decimal, "decimal");
+            RegisterColumnType(DbType.Double, "double");
+            RegisterColumnType(DbType.Guid, "sqlidentifier");
             RegisterColumnType(DbType.Int32, "integer");
             RegisterColumnType(DbType.Int64, "BigInt");
-            RegisterColumnType(DbType.AnsiStringFixedLength, 1, "char(1)");
-            RegisterColumnType(DbType.String, "nvarchar($l)");    
-            RegisterColumnType(DbType.Decimal, "decimal");
             RegisterColumnType(DbType.Single, "float");
-            RegisterColumnType(DbType.Double, "double");
-            // RegisterColumnType(DbType.Decimal, "numeric($p,$s)");
-            RegisterColumnType(DbType.Date, "date");
+            RegisterColumnType(DbType.String, "varchar($l)");    
             RegisterColumnType(DbType.Time, "time");
-            RegisterColumnType(DbType.DateTime, "timestamp");
-            RegisterColumnType(DbType.Guid, "longvarchar");
+            RegisterColumnType(DbType.UInt16, "smallint");
 
 //		DefaultProperties[Environment.USE_STREAMS_FOR_BINARY] = "false";
             DefaultProperties[Environment.BatchSize] = DefaultBatchSize;
