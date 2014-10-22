@@ -7,8 +7,9 @@
     <id name="Id">
       <generator class="increment" />
     </id>
-    <property name="Name" />
-    <property name="Category" />
+    <property name="Name" type="string" length="255"/>
+    <property name="Category" type="string" length="255"/>
+    <property name="IsExpired" />
   </class>
 
 </hibernate-mapping>

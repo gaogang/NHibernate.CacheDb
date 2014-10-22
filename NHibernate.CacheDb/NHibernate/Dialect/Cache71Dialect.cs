@@ -35,28 +35,20 @@ namespace NHibernate.Dialect
         protected void CommonRegistration()
         {
             RegisterColumnType(DbType.Binary, "varbinary($1)");
-            RegisterColumnType(DbType.Int64, "BigInt");
             RegisterColumnType(DbType.Boolean, "bit");
-            RegisterColumnType(DbType.AnsiStringFixedLength, 1, "char(1)");
-            RegisterColumnType(DbType.Date, "date");
-            RegisterColumnType(DbType.Decimal, "decimal");
-            RegisterColumnType(DbType.Double, "double");
-            RegisterColumnType(DbType.Single, "float");
-            RegisterColumnType(DbType.Int32, "integer");
-            RegisterColumnType(DbType.Binary, "longvarbinary");   // binary %Stream
-            RegisterColumnType(DbType.String, "longvarchar");     // character %Stream
-            RegisterColumnType(DbType.Decimal, "numeric($p,$s)");
-            RegisterColumnType(DbType.Single, "real");
-            RegisterColumnType(DbType.UInt16, "smallint");
-            RegisterColumnType(DbType.DateTime, "timestamp");
-            RegisterColumnType(DbType.Time, "time");
             RegisterColumnType(DbType.Byte, "tinyint");
-            // TODO should this be varbinary($1)?
-            //		RegisterColumnType(DbType.VARBINARY,     "binary($1)");
-            RegisterColumnType(DbType.Binary, "longvarbinary");
-            RegisterColumnType(DbType.String, "varchar($l)");
-            RegisterColumnType(DbType.Binary, "longvarbinary");
-            RegisterColumnType(DbType.String, "longvarchar");
+            RegisterColumnType(DbType.UInt16, "smallint");
+            RegisterColumnType(DbType.Int32, "integer");
+            RegisterColumnType(DbType.Int64, "BigInt");
+            RegisterColumnType(DbType.AnsiStringFixedLength, 1, "char(1)");
+            RegisterColumnType(DbType.String, "nvarchar($l)");    
+            RegisterColumnType(DbType.Decimal, "decimal");
+            RegisterColumnType(DbType.Single, "float");
+            RegisterColumnType(DbType.Double, "double");
+            // RegisterColumnType(DbType.Decimal, "numeric($p,$s)");
+            RegisterColumnType(DbType.Date, "date");
+            RegisterColumnType(DbType.Time, "time");
+            RegisterColumnType(DbType.DateTime, "timestamp");
             RegisterColumnType(DbType.Guid, "longvarchar");
 
 //		DefaultProperties[Environment.USE_STREAMS_FOR_BINARY] = "false";
