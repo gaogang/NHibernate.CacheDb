@@ -43,7 +43,7 @@ namespace NHibernate.Dialect
             RegisterColumnType(DbType.DateTime, "timestamp");
             RegisterColumnType(DbType.Decimal, "decimal");
             RegisterColumnType(DbType.Double, "double");
-            RegisterColumnType(DbType.Guid, "sqlidentifier");
+            RegisterColumnType(DbType.Guid, "varchar(32)");
             RegisterColumnType(DbType.Int32, "integer");
             RegisterColumnType(DbType.Int64, "BigInt");
             RegisterColumnType(DbType.Single, "float");
