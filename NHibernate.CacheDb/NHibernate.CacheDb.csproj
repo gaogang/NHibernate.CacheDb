@@ -71,6 +71,7 @@
     <Compile Include="NHibernate\SqlCommand\CacheJoinFragment.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
+    <Compile Include="Repositories\RepositoryBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

@@ -14,7 +14,5 @@ namespace NHibernate.CacheDb.Models
         public virtual bool IsExpired { get; set; }
 
         public virtual string Name { get; set; }
-
-        public virtual Guid UniqueId { get; set; }
     }
 }

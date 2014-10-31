@@ -1,15 +1,21 @@
-﻿using NHibernate.CacheDb.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using NHibernate.CacheDb.Models;
 
 namespace NHibernate.CacheDb.Repositories
 {
-    public class ProductRepository : IRepository<GGTestProduct>
+    public class ProductRepository : RepositoryBase<GGTestProduct>
     {
-        public GGTestProduct Get(GGTestProduct entity)
+        /// <summary>
+        /// Fetch an entity from the database table by Category
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public IEnumerable<GGTestProduct> GetByCategory(string category)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session.Get<GGTestProduct>(entity.Id);
-            }
+            return GetBy(p => p.Category == category);
         }
     }
 }

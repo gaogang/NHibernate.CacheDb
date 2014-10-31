@@ -18,7 +18,7 @@ namespace NHibernate.Dialect
     /// Author: Jonathan Levinson
     /// <p>
     /// </p>
-    /// Ported from Java by Werner Kolov
+    /// Ported from Java by Werner Kolov,  Gang Gao
     /// </p>
     /// </summary>
     public class Cache71Dialect : Dialect
@@ -43,7 +43,7 @@ namespace NHibernate.Dialect
             RegisterColumnType(DbType.DateTime, "timestamp");
             RegisterColumnType(DbType.Decimal, "decimal");
             RegisterColumnType(DbType.Double, "double");
-            RegisterColumnType(DbType.Guid, "varchar(32)");
+            RegisterColumnType(DbType.Guid, "varchar(64)");
             RegisterColumnType(DbType.Int32, "integer");
             RegisterColumnType(DbType.Int64, "BigInt");
             RegisterColumnType(DbType.Single, "float");
