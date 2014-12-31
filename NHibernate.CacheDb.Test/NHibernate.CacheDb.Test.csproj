@@ -74,6 +74,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NHibernate.CacheDb.Sample\NHibernate.CacheDb.Sample.csproj">
+      <Project>{09e0f025-c6b5-4d5a-9ff9-0f48c8b09df3}</Project>
+      <Name>NHibernate.CacheDb.Sample</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NHibernate.CacheDb\NHibernate.CacheDb.csproj">
       <Project>{232504be-4c0b-4335-b018-f7297436f1d4}</Project>
       <Name>NHibernate.CacheDb</Name>

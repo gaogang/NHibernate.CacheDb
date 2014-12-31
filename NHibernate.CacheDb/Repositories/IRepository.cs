@@ -10,6 +10,8 @@ namespace NHibernate.CacheDb.Repositories
 
         IEnumerable<T> GetBy(Expression<Func<T, bool>> predicate);
 
+        IEnumerable<T> GetAll();
+
         int Create(T entity);
     }
 }

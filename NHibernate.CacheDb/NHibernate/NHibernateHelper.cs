@@ -1,33 +1,52 @@
-﻿using NHibernate;
+﻿using System;
+using System.Reflection;
 using NHibernate.Cfg;
-using NHibernate.CacheDb.Models;
 
-namespace NHibernate
+namespace NHibernate.CacheDb
 {
     public class NHibernateHelper
     {
-        private static ISessionFactory _sessionFactory;
+        private static ISessionFactory Session;
+
+        private static Configuration Config;
+
+        public static void RegisterAssembly(Assembly assembly)
+        {
+            if (Config == null)
+            {
+                Config = new Configuration();
+
+                Config.Configure();
+            }
+
+            Config.AddAssembly(assembly);
+        }
 
         private static ISessionFactory SessionFactory
         {
             get
             {
-                if (_sessionFactory == null)
+                if (Config == null)
                 {
-                    var configuration = new Configuration();
-
-                    configuration.Configure();
-                    configuration.AddAssembly(typeof(GGTestProduct).Assembly);
-                    
-                    _sessionFactory = configuration.BuildSessionFactory();
+                    throw new InvalidOperationException("NHibernate configuration is not initialised.");
                 }
-                
-                return _sessionFactory;
+
+                if (Session == null)
+                {
+                    Session = Config.BuildSessionFactory();
+                }
+
+                return Session;
             }
         }
 
         public static ISession OpenSession()
         {
+            if (SessionFactory == null)
+            {
+                throw new InvalidOperationException("NHibernate SessionFactory is not initialised.");
+            }
+
             return SessionFactory.OpenSession();
         }
     }

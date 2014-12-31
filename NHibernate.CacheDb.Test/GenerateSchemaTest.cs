@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NHibernate.CacheDb.Sample.Models;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
-using NHibernate.CacheDb.Models;
 
 namespace NHibernate.CacheDb.Test
 {
@@ -11,6 +11,7 @@ namespace NHibernate.CacheDb.Test
         /// <summary>
         /// This will drop and recreate the GGTestProduct table
         /// </summary>
+        [Ignore]
         [TestMethod]
         public void Can_generate_schema()
         {

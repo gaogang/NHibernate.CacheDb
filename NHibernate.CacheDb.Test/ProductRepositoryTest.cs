@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NHibernate.CacheDb.Models;
-using NHibernate.CacheDb.Repositories;
+using NHibernate.CacheDb.Sample.Models;
+using NHibernate.CacheDb.Sample.Repositories;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 
@@ -17,6 +16,8 @@ namespace NHibernate.CacheDb.Test
         [TestInitialize]
         public void Initialise()
         {
+            NHibernateHelper.RegisterAssembly(typeof(ProductRepository).Assembly);
+
             ExportSchema();
 
             InitialiseData();
@@ -25,19 +26,20 @@ namespace NHibernate.CacheDb.Test
         [TestMethod]
         public void Get_GetTestProduct_ShouldReturnExpectedValue()
         {
-            var repository = new ProductRepository();
+            using (var repository = new ProductRepository())
+            {
+                var actual = repository.Get(2);
 
-            var actual = repository.Get(2);
-
-            Assert.IsNotNull(actual);
-            Assert.AreEqual("Test Product 2", actual.Name);
-            Assert.AreEqual("Test Category", actual.Category);
+                Assert.IsNotNull(actual);
+                Assert.AreEqual("Test Product 2", actual.Name);
+                Assert.AreEqual("Test Category", actual.Category);
+            }
         }
 
         [TestMethod]
         public void Create_InsertNewProduct_NewProductShouldBeInsertedToDatabase()
-        { 
-            var repository = new ProductRepository();
+        {
+            int id = -1;
             
             var expected = new GGTestProduct
             {
@@ -46,7 +48,10 @@ namespace NHibernate.CacheDb.Test
                 IsExpired = true
             };
 
-            int id = repository.Create(expected);
+            using (var repository = new ProductRepository())
+            {
+                id = repository.Create(expected);
+            }
 
             // Verify result
             GGTestProduct actual;
@@ -64,44 +69,47 @@ namespace NHibernate.CacheDb.Test
         [TestMethod]
         public void GetByCategory_GetProductByCategory_ShouldReturnAllProductsInExpectedCateogry()
         {
-            var repository = new ProductRepository();
+            using (var repository = new ProductRepository())
+            {
 
-            var products = repository.GetByCategory("Test Category");
+                var products = repository.GetByCategory("Test Category");
 
-            // Verify result
-            
-            Assert.AreEqual(2, products.Count());
-            Assert.AreEqual("Test Product 1", products.First().Name);
-            Assert.AreEqual("Test Product 2", products.Skip(1).First().Name);
+                // Verify result
+
+                Assert.AreEqual(2, products.Count());
+                Assert.AreEqual("Test Product 1", products.First().Name);
+                Assert.AreEqual("Test Product 2", products.Skip(1).First().Name);
+            }
         }
 
         private void InitialiseData()
         {
-            var repository = new ProductRepository();
+            using (var repository = new ProductRepository())
+            {
+                repository.Create(
+                    new GGTestProduct
+                    {
+                        Name = "Test Product 1",
+                        Category = "Test Category",
+                        IsExpired = true
+                    });
 
-            repository.Create(
-                new GGTestProduct
-                {
-                    Name = "Test Product 1",
-                    Category = "Test Category",
-                    IsExpired = true
-                });
+                repository.Create(
+                    new GGTestProduct
+                    {
+                        Name = "Test Product 2",
+                        Category = "Test Category",
+                        IsExpired = false
+                    });
 
-            repository.Create(
-                new GGTestProduct
-                {
-                    Name = "Test Product 2",
-                    Category = "Test Category",
-                    IsExpired = false
-                });
-
-            repository.Create(
-                new GGTestProduct
-                {
-                    Name = "Test Product 3",
-                    Category = "Test Category 3",
-                    IsExpired = true
-                });
+                repository.Create(
+                    new GGTestProduct
+                    {
+                        Name = "Test Product 3",
+                        Category = "Test Category 3",
+                        IsExpired = true
+                    });
+            }
         }
 
         private static void ExportSchema()

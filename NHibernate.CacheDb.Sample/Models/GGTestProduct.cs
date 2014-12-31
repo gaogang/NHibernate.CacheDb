@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NHibernate.CacheDb.Models
+namespace NHibernate.CacheDb.Sample.Models
 {
     public class GGTestProduct
     {

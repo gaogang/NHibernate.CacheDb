@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using NHibernate.CacheDb.Models;
+﻿using System.Collections.Generic;
+using NHibernate.CacheDb.Repositories;
+using NHibernate.CacheDb.Sample.Models;
 
-namespace NHibernate.CacheDb.Repositories
+namespace NHibernate.CacheDb.Sample.Repositories
 {
-    public class ProductRepository : RepositoryBase<GGTestProduct>
+    public class ProductRepository : 
+        RepositoryBase<GGTestProduct>, 
+        IProductRepository
     {
         /// <summary>
         /// Fetch an entity from the database table by Category

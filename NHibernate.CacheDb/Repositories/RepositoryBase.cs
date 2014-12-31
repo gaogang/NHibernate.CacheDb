@@ -4,8 +4,14 @@ using System.Linq.Expressions;
 
 namespace NHibernate.CacheDb.Repositories
 {
-    public class RepositoryBase<T> : IRepository<T> where T : class
+    public class RepositoryBase<T> : 
+        IDisposable,
+        IRepository<T> where T : class
     {
+        private bool _disposed = false;
+
+        private ISession _session;
+
         /// <summary>
         /// Fetch an entity from the database table
         /// </summary>
@@ -13,10 +19,9 @@ namespace NHibernate.CacheDb.Repositories
         /// <returns></returns>
         public T Get(int id)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session.Get<T>(id);
-            }
+            InitialiseSessionIfRequired();
+
+            return _session.Get<T>(id);
         }
 
         /// <summary>
@@ -26,11 +31,23 @@ namespace NHibernate.CacheDb.Repositories
         /// <returns></returns>
         public IEnumerable<T> GetBy(Expression<Func<T, bool>> predicate)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session.QueryOver<T>()
-                    .Where(predicate).List();
-            }
+            InitialiseSessionIfRequired();
+                
+            return _session.QueryOver<T>()
+                    .Where(predicate)
+                    .List();
+        }
+
+        /// <summary>
+        /// Return all the records
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetAll()
+        {
+            InitialiseSessionIfRequired();
+            
+            return _session.QueryOver<T>().List();
         }
 
         /// <summary>
@@ -56,8 +73,37 @@ namespace NHibernate.CacheDb.Repositories
                     return id;
                 }
             }
+        }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    if (_session != null)
+                    {
+                        _session.Dispose();
+                        _session = null;
+                    }
+
+                    _disposed = true;
+                }
+            }
+        }
+
+        private void InitialiseSessionIfRequired()
+        {
+            if (_session == null)
+            {
+                _session = NHibernateHelper.OpenSession();
+            }
         }
     }
 }
