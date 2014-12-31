@@ -32,5 +32,15 @@ namespace NHibernate.CacheDb.Sample.Repositories
         {
             return Create(product);
         }
+
+        public void UpdateProduct(GGTestProduct product)
+        {
+            Update(product);
+        }
+
+        public void DeleteProduct(GGTestProduct product)
+        {
+            Delete(product);
+        }
     }
 }

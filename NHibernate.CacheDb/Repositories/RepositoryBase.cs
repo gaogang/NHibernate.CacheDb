@@ -60,7 +60,7 @@ namespace NHibernate.CacheDb.Repositories
         /// Insert a new entity into the database table
         /// </summary>
         /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <returns>The id of the new entity</returns>
         protected int Create(T entity)
         {
             if (entity == null)
@@ -77,6 +77,50 @@ namespace NHibernate.CacheDb.Repositories
                     transactionScope.Commit();
 
                     return id;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Update an existing entity
+        /// </summary>
+        /// <param name="entity"></param>
+        protected void Update(T entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException("entity");
+            }
+
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transactionScope = session.BeginTransaction())
+                {
+                    session.Update(entity);
+
+                    transactionScope.Commit();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Delete an existing entity from the database
+        /// </summary>
+        /// <param name="entity"></param>
+        protected void Delete(T entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException("entity");
+            }
+
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transactionScope = session.BeginTransaction())
+                {
+                    session.Delete(entity);
+
+                    transactionScope.Commit();
                 }
             }
         }

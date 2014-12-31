@@ -10,5 +10,7 @@ namespace NHibernate.CacheDb.Sample.Repositories
         IEnumerable<GGTestProduct> GetProductsByCategory(string category);
 
         int SaveProduct(GGTestProduct product);
+
+        void UpdateProduct(GGTestProduct product);
     }
 }

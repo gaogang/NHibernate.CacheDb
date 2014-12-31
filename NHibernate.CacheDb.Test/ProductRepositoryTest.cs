@@ -37,6 +37,17 @@ namespace NHibernate.CacheDb.Test
         }
 
         [TestMethod]
+        public void GetProductById_ProductDoesNotExist_ShouldReturnNull()
+        {
+            using (var repository = new ProductRepository())
+            {
+                var actual = repository.GetProductById(1001);
+
+                Assert.IsNull(actual);
+            }
+        }
+
+        [TestMethod]
         public void SaveProduct_CreateNewProduct_NewProductShouldBeInsertedToDatabase()
         {
             int id = -1;
@@ -64,6 +75,83 @@ namespace NHibernate.CacheDb.Test
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.Category, actual.Category);
             Assert.AreEqual(expected.IsExpired, actual.IsExpired);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(StaleObjectStateException))]
+        public void UpdateProduct_ProductDoesNotExists_ExceptionThrown()
+        {
+            int id = 1001;
+
+            var expected = new GGTestProduct
+            {
+                Id = id,
+                Name = "Test Product 1001",
+                Category = "Test Category 1001",
+                IsExpired = true
+            };
+
+            using (var repository = new ProductRepository())
+            {
+                repository.UpdateProduct(expected);
+            }
+        }
+
+        [TestMethod]
+        public void UpdateProduct_ProductExist_DatabaseWillBeUpdated()
+        {
+            int id = 1;
+
+            var expected = new GGTestProduct
+            {
+                Id = id,
+                Name = "Test Product 11111",
+                Category = "Test Category 11111",
+                IsExpired = false
+            };
+
+            using (var repository = new ProductRepository())
+            {
+                repository.UpdateProduct(expected);
+            }
+
+            // Verify result
+            GGTestProduct actual;
+
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                actual = session.Get<GGTestProduct>(id);
+            }
+
+            Assert.AreEqual(expected.Name, actual.Name);
+            Assert.AreEqual(expected.Category, actual.Category);
+            Assert.AreEqual(expected.IsExpired, actual.IsExpired);
+        }
+
+        [TestMethod]
+        public void DeleteProduct_ProductExist_ProductWillbeDeletedFromDatabase()
+        {
+            int id = 1;
+
+            var expected = new GGTestProduct
+            {
+                Id = id
+            };
+
+            using (var repository = new ProductRepository())
+            {
+                repository.DeleteProduct(expected);
+            }
+
+            // Verify result
+            GGTestProduct actual;
+
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                actual = session.Get<GGTestProduct>(id);
+            }
+
+            Assert.IsNull(actual);
         }
 
         [TestMethod]
