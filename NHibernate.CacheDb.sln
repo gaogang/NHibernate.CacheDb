@@ -23,6 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4C48D7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.CacheDb.Sample", "NHibernate.CacheDb.Sample\NHibernate.CacheDb.Sample.csproj", "{09E0F025-C6B5-4D5A-9FF9-0F48C8B09DF3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{691C28D5-2F5D-4CEC-874B-27D0A077B25F}"
+	ProjectSection(SolutionItems) = preProject
+		SharedLib\InterSystems.Data.CacheClient.dll = SharedLib\InterSystems.Data.CacheClient.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
