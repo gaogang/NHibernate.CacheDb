@@ -5,6 +5,10 @@ namespace NHibernate.CacheDb.Sample.Repositories
 {
     public interface IProductRepository
     {
-        IEnumerable<GGTestProduct> GetByCategory(string category);
+        GGTestProduct GetProductById(int id);
+
+        IEnumerable<GGTestProduct> GetProductsByCategory(string category);
+
+        int SaveProduct(GGTestProduct product);
     }
 }

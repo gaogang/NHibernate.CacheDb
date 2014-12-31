@@ -24,11 +24,11 @@ namespace NHibernate.CacheDb.Test
         }
 
         [TestMethod]
-        public void Get_GetTestProduct_ShouldReturnExpectedValue()
+        public void GetProductById_GetTestProduct_ShouldReturnExpectedValue()
         {
             using (var repository = new ProductRepository())
             {
-                var actual = repository.Get(2);
+                var actual = repository.GetProductById(2);
 
                 Assert.IsNotNull(actual);
                 Assert.AreEqual("Test Product 2", actual.Name);
@@ -37,10 +37,10 @@ namespace NHibernate.CacheDb.Test
         }
 
         [TestMethod]
-        public void Create_InsertNewProduct_NewProductShouldBeInsertedToDatabase()
+        public void SaveProduct_CreateNewProduct_NewProductShouldBeInsertedToDatabase()
         {
             int id = -1;
-            
+
             var expected = new GGTestProduct
             {
                 Name = "Test Product",
@@ -50,7 +50,7 @@ namespace NHibernate.CacheDb.Test
 
             using (var repository = new ProductRepository())
             {
-                id = repository.Create(expected);
+                id = repository.SaveProduct(expected);
             }
 
             // Verify result
@@ -67,12 +67,12 @@ namespace NHibernate.CacheDb.Test
         }
 
         [TestMethod]
-        public void GetByCategory_GetProductByCategory_ShouldReturnAllProductsInExpectedCateogry()
+        public void GetProductsByCategory_GetProductByCategory_ShouldReturnAllProductsInExpectedCateogry()
         {
             using (var repository = new ProductRepository())
             {
 
-                var products = repository.GetByCategory("Test Category");
+                var products = repository.GetProductsByCategory("Test Category");
 
                 // Verify result
 
@@ -86,7 +86,7 @@ namespace NHibernate.CacheDb.Test
         {
             using (var repository = new ProductRepository())
             {
-                repository.Create(
+                repository.SaveProduct(
                     new GGTestProduct
                     {
                         Name = "Test Product 1",
@@ -94,7 +94,7 @@ namespace NHibernate.CacheDb.Test
                         IsExpired = true
                     });
 
-                repository.Create(
+                repository.SaveProduct(
                     new GGTestProduct
                     {
                         Name = "Test Product 2",
@@ -102,7 +102,7 @@ namespace NHibernate.CacheDb.Test
                         IsExpired = false
                     });
 
-                repository.Create(
+                repository.SaveProduct(
                     new GGTestProduct
                     {
                         Name = "Test Product 3",

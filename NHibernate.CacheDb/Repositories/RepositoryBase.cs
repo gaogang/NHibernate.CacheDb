@@ -4,20 +4,26 @@ using System.Linq.Expressions;
 
 namespace NHibernate.CacheDb.Repositories
 {
-    public class RepositoryBase<T> : 
-        IDisposable,
-        IRepository<T> where T : class
+    public class RepositoryBase<T> : IDisposable where T : class
     {
         private bool _disposed = false;
 
         private ISession _session;
+
+        public ISession Session
+        {
+            get
+            {
+                return _session;
+            }
+        }
 
         /// <summary>
         /// Fetch an entity from the database table
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public T Get(int id)
+        protected T Get(int id)
         {
             InitialiseSessionIfRequired();
 
@@ -29,7 +35,7 @@ namespace NHibernate.CacheDb.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public IEnumerable<T> GetBy(Expression<Func<T, bool>> predicate)
+        protected IEnumerable<T> GetBy(Expression<Func<T, bool>> predicate)
         {
             InitialiseSessionIfRequired();
                 
@@ -43,7 +49,7 @@ namespace NHibernate.CacheDb.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public IEnumerable<T> GetAll()
+        protected IEnumerable<T> GetAll()
         {
             InitialiseSessionIfRequired();
             
@@ -55,7 +61,7 @@ namespace NHibernate.CacheDb.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public int Create(T entity)
+        protected int Create(T entity)
         {
             if (entity == null)
             {
@@ -74,6 +80,16 @@ namespace NHibernate.CacheDb.Repositories
                 }
             }
         }
+
+        protected void InitialiseSessionIfRequired()
+        {
+            if (_session == null)
+            {
+                _session = NHibernateHelper.OpenSession();
+            }
+        }
+
+        #region IDisposable
 
         public void Dispose()
         {
@@ -98,12 +114,6 @@ namespace NHibernate.CacheDb.Repositories
             }
         }
 
-        private void InitialiseSessionIfRequired()
-        {
-            if (_session == null)
-            {
-                _session = NHibernateHelper.OpenSession();
-            }
-        }
+        #endregion
     }
 }
